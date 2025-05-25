@@ -24,28 +24,35 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
-      <div className="text-center mb-8 animate-float">
+    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
+      {/* Home button at the very top */}
+      <div className="w-full flex justify-end p-4">
+        <button
+          className="btn-pixel bg-primary-700 hover:bg-primary-500 text-lg px-6 py-3 shadow-lg transition"
+          onClick={() => navigate('/')}
+        >
+          Home
+        </button>
+      </div>
+      <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
-          <Brain className="h-16 w-16 text-primary-500" />
+          <Brain className="h-16 w-16 text-primary-500 drop-shadow-lg" />
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-white mb-2">
-          <span className="text-primary-400">Math</span>
-          <span className="text-white">Quest</span>
+        <h1 className="text-5xl md:text-7xl font-display text-white mb-2 tracking-widest drop-shadow-xl font-[Minecraft]">
+          <span className="text-primary-400">Wild</span>
+          <span className="text-white">Math</span>
         </h1>
-        <p className="text-gray-300 text-sm md:text-base">
-          A Role-Playing Math Adventure
+        <p className="text-gray-200 text-base md:text-lg font-mono tracking-wide font-['Press Start 2P']">
+          the numbers strike back
         </p>
       </div>
-      
-      <div className="game-container border-primary-500 w-full max-w-md p-6">
-        <h2 className="text-xl font-display text-white mb-6 text-center">
+      <div className="game-container border-primary-500 w-full max-w-md p-10 bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 shadow-2xl rounded-2xl">
+        <h2 className="text-3xl font-display text-white mb-10 text-center tracking-wider drop-shadow-lg">
           Begin Your Adventure
         </h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div>
-            <label htmlFor="playerName" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="playerName" className="block text-lg font-bold text-primary-200 mb-3">
               Enter Your Name:
             </label>
             <input
@@ -56,22 +63,31 @@ const HomePage: React.FC = () => {
                 setName(e.target.value);
                 setError('');
               }}
-              className="w-full p-3 bg-gray-800 text-white border-2 border-gray-700 rounded-lg focus:border-primary-500 focus:ring-0"
+              className="w-full p-4 bg-gray-800 text-white border-2 border-primary-700 rounded-xl focus:border-primary-500 focus:ring-0 font-mono text-xl shadow-inner"
               placeholder="Brave Adventurer..."
               maxLength={15}
             />
-            {error && <p className="mt-1 text-red-500 text-xs">{error}</p>}
+            {error && (
+              <div className="w-full mt-2 p-3 rounded-xl bg-gradient-to-br from-red-700 via-red-500 to-primary-700 border-2 border-primary-400 text-white text-center font-bold shadow-lg font-['Press Start 2P'] animate-pulse-slow">
+                {error}
+              </div>
+            )}
           </div>
-          
           <button 
             type="submit"
-            className="btn-pixel bg-primary-600 w-full text-center"
+            className="btn-pixel bg-primary-600 w-full text-center text-xl py-4 tracking-wider shadow-lg hover:bg-primary-500 transition"
           >
             Start Adventure
           </button>
         </form>
-        
-        <div className="mt-8 text-gray-400 text-xs text-center">
+        <button
+          type="button"
+          className="btn-pixel bg-gray-700 hover:bg-primary-500 w-full text-center text-lg py-3 mt-6 tracking-wider shadow-lg transition"
+          onClick={() => alert('Solve math problems to attack monsters. Level up by winning battles. Choose your character and location, and enjoy your math adventure!')}
+        >
+          How to Play
+        </button>
+        <div className="mt-10 text-primary-300 text-xs text-center font-mono animate-pulse-slow">
           <p>Solve math problems. Defeat monsters. Save the realm.</p>
         </div>
       </div>

@@ -14,7 +14,6 @@ interface GameContextType {
     experience: number;
     nextLevelExp: number;
   };
-  inventory: string[];
   currentLocation: string;
   setCurrentLocation: (location: string) => void;
   currentProblem: Problem | null;
@@ -25,7 +24,6 @@ interface GameContextType {
   earnExperience: (amount: number) => void;
   takeDamage: (amount: number) => void;
   healPlayer: (amount: number) => void;
-  addToInventory: (item: string) => void;
 }
 
 const defaultContext: GameContextType = {
@@ -40,7 +38,6 @@ const defaultContext: GameContextType = {
     experience: 0,
     nextLevelExp: 100,
   },
-  inventory: [],
   currentLocation: 'Fraction Forest',
   setCurrentLocation: () => {},
   currentProblem: null,
@@ -51,7 +48,6 @@ const defaultContext: GameContextType = {
   earnExperience: () => {},
   takeDamage: () => {},
   healPlayer: () => {},
-  addToInventory: () => {},
 };
 
 const GameContext = createContext<GameContextType>(defaultContext);
@@ -68,7 +64,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     experience: 0,
     nextLevelExp: 100,
   });
-  const [inventory, setInventory] = useState<string[]>([]);
   const [currentLocation, setCurrentLocation] = useState('Fraction Forest');
   const [currentProblem, setCurrentProblem] = useState<Problem | null>(null);
   const [gameState, setGameState] = useState<GameState>(GameState.TITLE);
@@ -128,10 +123,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   };
 
-  const addToInventory = (item: string) => {
-    setInventory(prev => [...prev, item]);
-  };
-
   return (
     <GameContext.Provider
       value={{
@@ -140,7 +131,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         characterClass,
         setCharacterClass,
         playerStats,
-        inventory,
         currentLocation,
         setCurrentLocation,
         currentProblem,
@@ -151,7 +141,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         earnExperience,
         takeDamage,
         healPlayer,
-        addToInventory,
       }}
     >
       {children}

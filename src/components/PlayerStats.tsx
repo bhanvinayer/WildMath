@@ -53,36 +53,32 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({
   const expPercentage = (experience / nextLevelExp) * 100;
 
   return (
-    <div className={`bg-gray-800 rounded-xl p-4 shadow-lg transition-all duration-300 ${
-      isDefending ? 'ring-2 ring-blue-500 animate-pulse' : ''
+    <div className={`bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 rounded-2xl p-6 shadow-2xl border-2 border-primary-700 transition-all duration-300 ${
+      isDefending ? 'ring-4 ring-blue-400 animate-pulse' : ''
     }`}>
-      <div className="flex items-center mb-2">
-        <div className="p-2 bg-gray-700 rounded-full mr-2">
+      <div className="flex items-center mb-4">
+        <div className="p-3 bg-gray-700 rounded-full mr-4 shadow-lg">
           {getClassIcon()}
         </div>
         <div>
-          <h3 className="font-display text-white">{playerName}</h3>
-          <p className={`text-sm font-semibold capitalize ${getClassColor()}`}>
-            Level {level} {characterClass}
-          </p>
+          <h3 className="font-display text-white text-2xl drop-shadow-lg">{playerName}</h3>
+          <p className={`text-base font-semibold capitalize ${getClassColor()} drop-shadow`}>Level {level} {characterClass}</p>
         </div>
       </div>
-
       <HealthBar 
         current={health} 
         max={maxHealth} 
         label="HP" 
         isPlayer={true}
       />
-      
-      <div className="mt-2">
+      <div className="mt-4">
         <div className="flex justify-between text-xs mb-1">
           <span className="font-bold text-primary-300">EXP</span>
           <span className="text-primary-300">{experience}/{nextLevelExp}</span>
         </div>
-        <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-gray-700 rounded-full overflow-hidden shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-primary-400 to-primary-600"
+            className="h-full bg-gradient-to-r from-primary-400 to-primary-600 animate-pulse-slow"
             style={{ width: `${expPercentage}%` }}
           ></div>
         </div>

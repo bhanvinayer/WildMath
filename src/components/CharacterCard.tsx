@@ -47,20 +47,20 @@ const CharacterCard: React.FC<CharacterCardProps> = ({
 
   return (
     <div 
-      className={`${getBgColor()} p-4 rounded-xl shadow-lg cursor-pointer transform transition-all duration-300 ${
-        selected ? 'scale-105 ring-4 ring-white' : 'hover:scale-102'
+      className={`${getBgColor()} p-6 rounded-2xl shadow-2xl cursor-pointer transform transition-all duration-300 border-2 ${
+        selected ? 'scale-105 ring-4 ring-primary-200 border-white' : 'hover:scale-102 border-primary-700'
       }`}
       onClick={onSelect}
     >
       <div className="flex flex-col items-center">
-        <div className="p-3 bg-white bg-opacity-20 rounded-full mb-4">
+        <div className="p-4 bg-white bg-opacity-30 rounded-full mb-6 shadow-lg">
           {getIcon()}
         </div>
-        <h3 className="text-xl font-display text-white mb-2">{name}</h3>
-        <p className="text-white text-center text-sm mb-4">{description}</p>
-        <div className="bg-black bg-opacity-30 p-2 rounded-lg w-full">
-          <h4 className="text-white text-center text-xs mb-1">SPECIAL SKILL</h4>
-          <p className="text-white text-center text-sm font-bold">{mathSkill}</p>
+        <h3 className="text-2xl font-display text-white mb-3 drop-shadow-lg text-center break-words max-w-full">{name}</h3>
+        <p className="text-white text-center text-base mb-6 font-mono animate-pulse-slow break-words max-w-full">{description}</p>
+        <div className="bg-black bg-opacity-40 p-3 rounded-xl w-full shadow-inner">
+          <h4 className="text-white text-center text-xs mb-2 tracking-wider font-bold">SPECIAL SKILL</h4>
+          <p className="text-primary-200 text-center text-lg font-bold font-mono break-words max-w-full">{mathSkill}</p>
         </div>
       </div>
     </div>

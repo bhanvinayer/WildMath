@@ -30,74 +30,82 @@ const MathProblem: React.FC<MathProblemProps> = ({
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl p-6 shadow-xl w-full max-w-md mx-auto">
-      <h3 className="text-xl font-display text-white mb-4">Problem</h3>
-      
-      <div className="bg-gray-700 p-4 rounded-lg mb-6">
-        <p className="math-text text-white">{problem.question}</p>
+    <div className="bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 rounded-2xl p-8 shadow-2xl border-2 border-primary-700 w-full max-w-xl mx-auto animate-float">
+      <h3 className="text-2xl font-display text-white mb-6 tracking-wide drop-shadow-lg">Solve the Problem</h3>
+      <div className="bg-gray-800 p-6 rounded-xl mb-8 shadow-lg animate-float">
+        <p className="math-text text-white text-xl">{problem.question}</p>
       </div>
-      
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} aria-label="Math Problem" tabIndex={0}>
         {problem.options ? (
-          <div className="space-y-3 mb-6">
+          <div className="space-y-4 mb-8">
             {problem.options.map((option, index) => (
               <div 
                 key={index}
-                className={`p-3 rounded-lg cursor-pointer transition-all ${
+                role="radio"
+                aria-checked={selectedOption === option}
+                tabIndex={0}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setSelectedOption(option);
+                  }
+                }}
+                className={`p-4 rounded-xl cursor-pointer font-mono text-lg font-bold transition-all shadow-lg border-2 focus:outline-none focus:ring-4 focus:ring-primary-400 focus:border-primary-400 ${
                   selectedOption === option
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                    ? 'bg-primary-600 text-white border-primary-400 scale-105'
+                    : 'bg-gray-700 text-white border-gray-700 hover:bg-primary-800 hover:text-white hover:scale-102'
                 }`}
                 onClick={() => setSelectedOption(option)}
+                aria-label={`Option ${option}`}
               >
-                <p className="math-text">{option}</p>
+                {option}
               </div>
             ))}
           </div>
         ) : (
-          <div className="mb-6">
-            <label htmlFor="answer" className="block text-sm font-medium text-gray-300 mb-2">
+          <div className="mb-8">
+            <label htmlFor="answer" className="block text-base font-medium text-primary-200 mb-3">
               Your Answer:
             </label>
             <input
               type="text"
               id="answer"
-              className="w-full p-3 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-primary-500 math-text"
+              className="w-full p-4 bg-gray-800 text-white border-2 border-primary-700 rounded-xl focus:border-primary-500 focus:ring-4 focus:ring-primary-400 font-mono text-lg shadow-inner"
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Enter your answer..."
+              aria-label="Your Answer"
             />
           </div>
         )}
-        
         <div className="flex justify-between items-center">
           {showHint && problem.hint && (
             <button
               type="button"
               onClick={toggleHint}
-              className="text-primary-300 hover:text-primary-200 text-sm"
+              className="text-primary-300 hover:text-primary-200 text-base font-bold animate-pulse-slow focus:outline-none focus:ring-2 focus:ring-primary-400"
+              aria-label={showingHint ? 'Hide Hint' : 'Show Hint'}
             >
               {showingHint ? 'Hide Hint' : 'Show Hint'}
             </button>
           )}
-          
           <button
             type="submit"
             disabled={problem.options ? !selectedOption : !userAnswer}
-            className={`btn-pixel bg-primary-600 hover:bg-primary-500 px-6 py-2 ml-auto ${
+            className={`btn-pixel bg-primary-600 hover:bg-primary-500 px-8 py-3 ml-auto text-lg font-bold shadow-lg focus:outline-none focus:ring-4 focus:ring-primary-400 ${
               (problem.options ? !selectedOption : !userAnswer)
                 ? 'opacity-50 cursor-not-allowed'
                 : ''
             }`}
+            aria-disabled={problem.options ? !selectedOption : !userAnswer}
+            aria-label="Submit Answer"
           >
             Submit Answer
           </button>
         </div>
       </form>
-      
       {showingHint && problem.hint && (
-        <div className="mt-4 p-3 bg-gray-900 rounded-lg border border-primary-500">
-          <p className="text-primary-300 text-sm">{problem.hint}</p>
+        <div className="mt-6 p-4 bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 rounded-xl border-2 border-primary-500 shadow-lg animate-float font-['Press Start 2P'] text-primary-300 text-base text-center">
+          <p>{problem.hint}</p>
         </div>
       )}
     </div>

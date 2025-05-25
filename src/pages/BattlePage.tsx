@@ -5,35 +5,28 @@ import { getRandomEnemy } from '../data/enemies';
 import MathProblem from '../components/MathProblem';
 import PlayerStats from '../components/PlayerStats';
 import EnemyCard from '../components/EnemyCard';
-import { GameState } from '../types';
 
 const BattlePage: React.FC = () => {
   const {
     playerName,
     characterClass,
     playerStats,
-    currentLocation,
     currentProblem,
     generateNewProblem,
-    checkAnswer,
-    gameState,
-    setGameState,
     earnExperience,
     takeDamage,
     healPlayer,
-    addToInventory,
   } = useGame();
 
   const navigate = useNavigate();
 
   // Get a random enemy based on player level
-  const [enemy, setEnemy] = useState(getRandomEnemy(
-    Math.max(1, playerStats.level - 1),
-    playerStats.level + 1
+  const [enemy, setEnemy] = useState(() => getRandomEnemy(
+    playerStats.level, // minLevel is player's current level
+    playerStats.level // maxLevel is also player's current level for a tighter match
   ));
   
   const [battleMessage, setBattleMessage] = useState('A wild enemy appears!');
-  const [playerAttacking, setPlayerAttacking] = useState(false);
   const [enemyAttacking, setEnemyAttacking] = useState(false);
   const [showProblem, setShowProblem] = useState(false);
   const [battleEnd, setBattleEnd] = useState(false);
@@ -65,15 +58,16 @@ const BattlePage: React.FC = () => {
       const expGained = enemy.level * 20;
       earnExperience(expGained);
       
-      // Show victory message with rewards
       setTimeout(() => {
-        setBattleMessage(`Victory! You gained ${expGained} experience!`);
-        setTimeout(() => {
-          navigate('/game');
-        }, 2000);
-      }, 1000);
+        navigate('/game');
+      }, 2000);
     }
   }, [playerStats.health, enemy.health, navigate, earnExperience, healPlayer]);
+
+  useEffect(() => {
+    // When player level changes, update enemy to match new level
+    setEnemy(getRandomEnemy(playerStats.level, playerStats.level));
+  }, [playerStats.level]);
 
   const handlePlayerTurn = () => {
     setShowProblem(true);
@@ -85,7 +79,6 @@ const BattlePage: React.FC = () => {
     
     if (isCorrect) {
       setBattleMessage('Correct! You attack the enemy!');
-      setPlayerAttacking(true);
       
       // Calculate damage based on player level and character class bonus
       let damage = 10 + playerStats.level * 2;
@@ -114,8 +107,6 @@ const BattlePage: React.FC = () => {
       });
       
       setTimeout(() => {
-        setPlayerAttacking(false);
-        
         if (newHealth > 0) {
           // Enemy's turn
           setBattleMessage(`${enemy.name} is preparing to attack!`);
@@ -154,14 +145,31 @@ const BattlePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
-      <div className="p-4 bg-gray-800">
-        <h2 className="text-xl font-display text-white text-center">Battle!</h2>
+    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col p-4 md:p-8 lg:p-12">
+      {/* Home button and game branding in the same row */}
+      <div className="w-full flex flex-row items-center justify-between p-4 pb-0">
+        <div className="flex flex-col items-start">
+          <h1 className="text-4xl md:text-6xl font-display text-white tracking-widest drop-shadow-xl font-[Minecraft] leading-none">
+            <span className="text-primary-400">Wild</span>
+            <span className="text-white">Math</span>
+          </h1>
+          <p className="text-gray-200 text-base md:text-lg tracking-wide font-['Press Start 2P'],font-mono leading-tight">
+            the numbers strike back
+          </p>
+        </div>
+        <button
+          className="btn-pixel bg-primary-700 hover:bg-primary-500 text-lg px-6 py-3 shadow-lg transition ml-4"
+          onClick={() => navigate('/')}
+        >
+          Home
+        </button>
       </div>
-      
-      <div className="flex-grow flex flex-col md:flex-row p-4 gap-6">
-        {/* Left side - Player info */}
-        <div className="w-full md:w-1/4">
+      <div className="p-4 bg-gray-900/80 shadow-2xl flex items-center justify-between">
+        <h2 className="text-3xl font-display text-white text-center tracking-widest drop-shadow-xl">Battle Arena</h2>
+      </div>
+      <div className="flex-grow flex flex-col md:flex-row p-6 gap-8">
+        {/* Left side - Player info and Enemy info */}
+        <div className="w-full md:w-1/4 flex flex-col gap-8">
           <PlayerStats
             playerName={playerName}
             characterClass={characterClass!}
@@ -172,41 +180,40 @@ const BattlePage: React.FC = () => {
             nextLevelExp={playerStats.nextLevelExp}
             isDefending={enemyAttacking}
           />
+          <EnemyCard enemy={enemy} isAttacking={enemyAttacking} />
         </div>
-        
         {/* Center - Battle arena */}
         <div className="flex-grow flex flex-col items-center justify-center">
           {/* Battle message */}
-          <div className="bg-gray-800 p-4 rounded-lg mb-6 text-center w-full">
-            <p className="text-white font-medium">{battleMessage}</p>
+          <div className="bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 p-6 rounded-2xl mb-8 text-center w-full max-w-2xl shadow-xl border-2 border-primary-700">
+            {battleEnd && enemy.health <= 0 ? (
+              <p className="text-green-400 font-display text-5xl md:text-7xl tracking-widest drop-shadow-2xl animate-pop font-bold">
+                Victory!
+              </p>
+            ) : (
+              <p className="text-white font-display text-2xl tracking-wide drop-shadow-lg animate-pulse-slow">{battleMessage}</p>
+            )}
           </div>
-          
-          {/* Enemy display */}
-          <div className="w-full max-w-xs">
-            <EnemyCard enemy={enemy} isAttacking={enemyAttacking} />
-          </div>
-          
           {/* Battle controls */}
           {!showProblem && !battleEnd && (
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row gap-6">
               <button
                 onClick={handlePlayerTurn}
-                className="btn-pixel bg-red-600 hover:bg-red-500"
+                className="btn-pixel bg-red-600 hover:bg-red-500 text-xl px-8 py-4 shadow-xl animate-bounce-slow"
               >
                 Attack
               </button>
               <button
                 onClick={handleEscape}
-                className="btn-pixel bg-gray-700 hover:bg-gray-600"
+                className="btn-pixel bg-gray-700 hover:bg-gray-600 text-xl px-8 py-4 shadow-xl"
               >
                 Escape
               </button>
             </div>
           )}
-          
           {/* Math problem */}
           {showProblem && currentProblem && (
-            <div className="mt-6 w-full max-w-lg">
+            <div className="mt-8 w-full max-w-lg">
               <MathProblem 
                 problem={currentProblem} 
                 onAnswer={handleProblemAnswer}

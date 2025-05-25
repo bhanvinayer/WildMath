@@ -11,8 +11,8 @@ const generateFractionProblem = (difficulty: number): Problem => {
     // Difficulty 1: Simple fraction addition/subtraction with like denominators
     () => {
       const denominator = getRandomInt(2, 10);
-      const a = getRandomInt(1, denominator - 1);
-      const b = getRandomInt(1, denominator - 1);
+      let a = getRandomInt(1, denominator - 1);
+      let b = getRandomInt(1, denominator - 1);
       const operation = Math.random() > 0.5 ? '+' : '-';
       
       let answer, question;
@@ -23,7 +23,9 @@ const generateFractionProblem = (difficulty: number): Problem => {
       } else {
         // Ensure a > b to avoid negative fractions for beginners
         if (a < b) {
-          [a, b] = [b, a];
+          const temp = a;
+          a = b;
+          b = temp;
         }
         answer = (a - b) / denominator;
         question = `${a}/${denominator} - ${b}/${denominator} = ?`;
@@ -33,20 +35,26 @@ const generateFractionProblem = (difficulty: number): Problem => {
       const gcd = (x: number, y: number): number => y === 0 ? x : gcd(y, x % y);
       const numerator = a + (operation === '+' ? b : -b);
       const g = gcd(Math.abs(numerator), denominator);
-      
+
       answer = numerator === 0 ? "0" : 
                g === denominator ? `${numerator/g}` : 
                `${numerator/g}/${denominator/g}`;
-      
+
+      // Generate unique options
+      const optionsSet = new Set<string>();
+      optionsSet.add(answer.toString());
+      // Unsimplified
+      optionsSet.add(`${numerator}/${denominator}`);
+      // Inverted (avoid if numerator==0)
+      if (numerator !== 0) optionsSet.add(`${denominator}/${numerator}`);
+      // Close but wrong
+      optionsSet.add(`${numerator + 1}/${denominator}`);
+      const options = Array.from(optionsSet).slice(0, 4);
+
       return {
         question,
         answer,
-        options: shuffleArray([
-          answer.toString(),
-          `${numerator}/${denominator}`, // Unsimplified
-          `${denominator}/${numerator}`, // Inverted
-          `${numerator + 1}/${denominator}` // Close but wrong
-        ]),
+        options: shuffleArray(options),
         hint: "Remember, when adding or subtracting fractions with the same denominator, you only add or subtract the numerators."
       };
     },
@@ -369,8 +377,8 @@ const generateDecimalProblem = (difficulty: number): Problem => {
   const problems = [
     // Difficulty 1: Simple decimal operations
     () => {
-      const a = getRandomInt(1, 20) / 10; // e.g., 0.1 to 2.0
-      const b = getRandomInt(1, 20) / 10;
+      let a = getRandomInt(1, 20) / 10; // e.g., 0.1 to 2.0
+      let b = getRandomInt(1, 20) / 10;
       const operation = Math.random() > 0.5 ? '+' : '-';
       
       let answer, question;
@@ -381,7 +389,9 @@ const generateDecimalProblem = (difficulty: number): Problem => {
       } else {
         // Ensure a > b to avoid negative numbers for beginners
         if (a < b) {
-          [a, b] = [b, a];
+          const temp = a;
+          a = b;
+          b = temp;
         }
         answer = a - b;
         question = `${a.toFixed(1)} - ${b.toFixed(1)} = ?`;
