@@ -13,7 +13,7 @@ WildMath is a web-based RPG game where players embark on a fantasy quest filled 
 
 ## How we built it
 
-We built WildMath using **React** for the frontend and styled it with **Tailwind CSS** to create a clean, responsive interface. The project structure was modular, allowing for component reusability and scalability. Animations were added using **Framer Motion**, and routing was handled through **React Router**. The development process involved designing in **Figma**, iterating through prototypes, and hosting the final product on **Netlify**. We prioritized accessibility and responsiveness to ensure the platform works smoothly across devices.
+We built WildMath using **React** for the frontend and styled it with **Tailwind CSS** to create a clean, responsive interface. The project structure was modular, allowing for component reusability and scalability. Animations were added using **Framer Motion**, and routing was handled through **React Router**. The development process involved designing in **Figma**, iterating through prototypes, and hosting the final product on **Vercel**. We prioritized accessibility and responsiveness to ensure the platform works smoothly across devices.
 
 ## Challenges we ran into
 
