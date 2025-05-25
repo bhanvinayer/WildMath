@@ -5,6 +5,10 @@ import { getRandomEnemy } from '../data/enemies';
 import MathProblem from '../components/MathProblem';
 import PlayerStats from '../components/PlayerStats';
 import EnemyCard from '../components/EnemyCard';
+import { SoundManager } from '../utils/soundManager';
+import Modal from '../components/Modal';
+import AchievementPopup from '../components/AchievementPopup';
+import ShareScoreButton from '../components/ShareScoreButton';
 
 const BattlePage: React.FC = () => {
   const {
@@ -30,6 +34,9 @@ const BattlePage: React.FC = () => {
   const [enemyAttacking, setEnemyAttacking] = useState(false);
   const [showProblem, setShowProblem] = useState(false);
   const [battleEnd, setBattleEnd] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [showAchievement, setShowAchievement] = useState(false);
+  const [score, setScore] = useState(0); // Example score, update as needed
 
   useEffect(() => {
     if (!currentProblem) {
@@ -53,6 +60,7 @@ const BattlePage: React.FC = () => {
     if (enemy.health <= 0) {
       setBattleMessage(`You defeated the ${enemy.name}!`);
       setBattleEnd(true);
+      setShowAchievement(true);
       
       // Award experience based on enemy level
       const expGained = enemy.level * 20;
@@ -69,6 +77,11 @@ const BattlePage: React.FC = () => {
     setEnemy(getRandomEnemy(playerStats.level, playerStats.level));
   }, [playerStats.level]);
 
+  useEffect(() => {
+    SoundManager.playMusic('/public/music.mp3'); // Place a music.mp3 in public folder
+    return () => SoundManager.stopMusic();
+  }, []);
+
   const handlePlayerTurn = () => {
     setShowProblem(true);
     setBattleMessage('Solve the problem to attack!');
@@ -78,6 +91,8 @@ const BattlePage: React.FC = () => {
     setShowProblem(false);
     
     if (isCorrect) {
+      SoundManager.playEffect('/public/correct.mp3');
+      setScore(score + 10); // Example scoring
       setBattleMessage('Correct! You attack the enemy!');
       
       // Calculate damage based on player level and character class bonus
@@ -114,6 +129,7 @@ const BattlePage: React.FC = () => {
         }
       }, 1000);
     } else {
+      SoundManager.playEffect('/public/wrong.mp3');
       setBattleMessage('Incorrect! The enemy attacks!');
       setTimeout(enemyTurn, 1500);
     }
@@ -223,6 +239,21 @@ const BattlePage: React.FC = () => {
           )}
         </div>
       </div>
+      {/* How to Play Modal */}
+      <Modal open={showHowToPlay} onClose={() => setShowHowToPlay(false)} title="How to Play">
+        <ul className="list-disc pl-6 space-y-2">
+          <li>Solve math problems to attack monsters.</li>
+          <li>Win battles to earn experience and level up.</li>
+          <li>Choose your character and location for unique skills and challenges.</li>
+          <li>Defeat all enemies to become the WildMath champion!</li>
+        </ul>
+      </Modal>
+      {/* Achievement Popup */}
+      <AchievementPopup open={showAchievement} onClose={() => setShowAchievement(false)} title="Achievement Unlocked!" description="Victory! You defeated an enemy!" />
+      {/* Share Score Button at end of run */}
+      {battleEnd && enemy.health <= 0 && (
+        <ShareScoreButton score={score} />
+      )}
     </div>
   );
 };
