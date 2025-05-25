@@ -41,9 +41,9 @@ const CharacterSelectPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col items-center justify-center p-6 md:p-10 lg:p-16">
+    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col items-center justify-center p-2">
       {/* Home button at the very top */}
-      <div className="w-full flex justify-end p-4">
+      <div className="w-full flex justify-end p-2 pb-0">
         <button
           className="btn-pixel bg-primary-700 hover:bg-primary-500 text-lg px-6 py-3 shadow-lg transition"
           onClick={() => navigate('/')}

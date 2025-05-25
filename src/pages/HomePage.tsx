@@ -24,9 +24,9 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col items-center justify-center p-2">
       {/* Home button at the very top */}
-      <div className="w-full flex justify-end p-4">
+      <div className="w-full flex justify-end p-2 pb-0">
         <button
           className="btn-pixel bg-primary-700 hover:bg-primary-500 text-lg px-6 py-3 shadow-lg transition"
           onClick={() => navigate('/')}
@@ -67,11 +67,7 @@ const HomePage: React.FC = () => {
               placeholder="Brave Adventurer..."
               maxLength={15}
             />
-            {error && (
-              <div className="w-full mt-2 p-3 rounded-xl bg-gradient-to-br from-red-700 via-red-500 to-primary-700 border-2 border-primary-400 text-white text-center font-bold shadow-lg font-['Press Start 2P'] animate-pulse-slow">
-                {error}
-              </div>
-            )}
+            {error && <p className="mt-2 text-red-500 text-base font-bold animate-pulse">{error}</p>}
           </div>
           <button 
             type="submit"

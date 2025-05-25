@@ -145,9 +145,9 @@ const BattlePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col p-4 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-gray-900 to-primary-800 flex flex-col p-2">
       {/* Home button and game branding in the same row */}
-      <div className="w-full flex flex-row items-center justify-between p-4 pb-0">
+      <div className="w-full flex flex-row items-center justify-between p-2 pb-0">
         <div className="flex flex-col items-start">
           <h1 className="text-4xl md:text-6xl font-display text-white tracking-widest drop-shadow-xl font-[Minecraft] leading-none">
             <span className="text-primary-400">Wild</span>

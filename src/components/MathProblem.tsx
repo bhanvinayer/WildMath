@@ -104,8 +104,8 @@ const MathProblem: React.FC<MathProblemProps> = ({
         </div>
       </form>
       {showingHint && problem.hint && (
-        <div className="mt-6 p-4 bg-gradient-to-br from-primary-900 via-gray-900 to-primary-700 rounded-xl border-2 border-primary-500 shadow-lg animate-float font-['Press Start 2P'] text-primary-300 text-base text-center">
-          <p>{problem.hint}</p>
+        <div className="mt-6 p-4 bg-gray-900 rounded-xl border-2 border-primary-500 shadow-lg animate-float">
+          <p className="text-primary-300 text-base font-mono">{problem.hint}</p>
         </div>
       )}
     </div>
