@@ -1,4 +1,4 @@
-#WildMath - The Numbers Strike Back 🏹🧙‍♂️⚔️
+# WildMath - The Numbers Strike Back 🏹🧙‍♂️⚔️
 
 ## Inspiration
 
