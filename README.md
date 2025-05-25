@@ -12,6 +12,8 @@ That’s how WildMath came to life: an interactive, visually polished math platf
 
 WildMath is a web-based RPG game where players embark on a fantasy quest filled with math challenges. Players select a character class (Knight, Wizard, Archer), travel through magical realms like Fraction Forest or Geometry Gorge, and solve math problems to cast spells, defend against enemies, and unlock new areas. The game dynamically adjusts difficulty based on the player’s performance, making it suitable for different learning levels. Players can track progress, earn rewards, and develop confidence in math through engaging gameplay.
 
+![WildMath Gameplay Screenshot](./public/1.png)
+
 ## How we built it
 
 We built WildMath using **React** for the frontend and styled it with **Tailwind CSS** to create a clean, responsive interface. The project structure was modular, allowing for component reusability and scalability. Animations were added using **Framer Motion**, and routing was handled through **React Router**. The development process involved designing in **Figma**, iterating through prototypes, and hosting the final product on **Vercel**. We prioritized accessibility and responsiveness to ensure the platform works smoothly across devices.
