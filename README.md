@@ -1,5 +1,6 @@
 # WildMath - The Numbers Strike Back 🏹🧙‍♂️⚔️
 
+
 ## Inspiration
 
 WildMath was born from the idea that learning math shouldn’t feel intimidating, it should feel like play.
@@ -18,6 +19,9 @@ We built WildMath using **React** for the frontend and styled it with **Tailwind
 ## Challenges we ran into
 
 One of the major challenges was balancing educational content with game mechanics in a way that felt natural. We wanted math problems to be core to gameplay without feeling forced or disruptive. Designing adaptive difficulty required careful consideration to avoid frustrating or boring users. Ensuring smooth performance with rich visuals and animations was another hurdle, especially when optimizing for mobile devices.
+
+[🔗 Play WildMath on Vercel](https://wildmath.vercel.app)
+
 
 ## Accomplishments that we're proud of
 
